@@ -29,32 +29,40 @@ class ContactServiceTest {
 	}
 	
 	@Test
-	void testDeleteContactMethod() {
+	void testRemoveContactMethod() {
 		ContactService contactService = new ContactService();
 		// create new contact
 		Contact contact = new Contact("123456", "Larry", "Joe", "7025554900", "6029 Elm Street");
+		
 		// try to remove with null id
 		Assertions.assertThrows(IllegalArgumentException.class, () ->{
-			contactService.removeContact(null);
+			contactService.removeContact("");
 		});
+		
 		// try to remove with id that's too long
 		Assertions.assertThrows(IllegalArgumentException.class, () ->{
 			contactService.removeContact("12345678901");
 		});
+		
 		// try to remove from empty list
 		Assertions.assertThrows(IllegalArgumentException.class, () ->{
 			contactService.removeContact("1234567890");
 		});
+		
 		// add the contact
 		contactService.addContact(contact);
+		
 		// remove a contact that isn't there
 		contactService.removeContact("123457");
+		
 		// contact list is not empty, count is not zero
 		// contact not removed because contact doesn't exist
 		assertTrue(!contactService.getContactLIst().isEmpty());
 		assertTrue(contactService.getNumContacts() != 0);
+		
 		// remove correct contact
 		contactService.removeContact("123456");
+		
 		// list is empty, count is zero, contact successfully removed
 		assertTrue(contactService.getNumContacts() == 0);
 		assertTrue(contactService.getContactLIst().isEmpty());
